@@ -1,9 +1,13 @@
 <template>
-  <div class="buscar-produtos"></div>
+  <div class="buscar-produtos">
+    <div class="container"></div>
+  </div>
 </template>
 
 <script>
-export default {};
+export default {
+  name: "ProdutosBuscar"
+};
 </script>
 
 <style>
