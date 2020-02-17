@@ -2,18 +2,15 @@
   <div class="lista-produtos">
     <div class="container">
       <div v-if="produtos && produtos.length" class="content-produtos">
-        <div class="produto" v-for="produto in produtos" :key="produto.id">
+        <div class="produto" v-for="(produto, index) in produtos" :key="index">
           <router-link to="/">
-            <img
-              v-if="produto.fotos"
-              :src="produto.fotos[0].src"
-              :alt="produto.fotos[0].titulo"
-            />
+            <img v-if="produto.fotos" :src="produto.fotos[0].src" :alt="produto.fotos[0].titulo" />
             <p class="preco">{{ produto.preco }}</p>
             <h2 class="titulo">{{ produto.nome }}</h2>
             <p>{{ produto.descricao }}</p>
           </router-link>
         </div>
+        <ProdutosPaginar :produtosTotal="produtosTotal" :produtosPorPagina="produtosPorPagina" />
       </div>
       <div v-else-if="produtos && produtos.length === 0" class="not">
         <p>Busca sem resultados. Tente buscar outro termo.</p>
@@ -23,14 +20,19 @@
 </template>
 
 <script>
+import ProdutosPaginar from "../components/ProdutosPaginar.vue";
 import { api } from "@/services/services.js";
 import { serialize } from "@/helpers.js";
 export default {
   name: "ProdutosLista",
+  components: {
+    ProdutosPaginar
+  },
   data() {
     return {
       produtos: null,
-      produtosPorPagina: 9
+      produtosPorPagina: 9,
+      produtosTotal: 0
     };
   },
   computed: {
@@ -43,6 +45,7 @@ export default {
     GetProducts() {
       try {
         api.get(this.url).then(res => {
+          this.produtosTotal = Number(res.headers["x-total-count"]);
           this.produtos = res.data;
         });
       } catch (error) {
