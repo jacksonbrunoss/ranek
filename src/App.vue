@@ -92,6 +92,10 @@ body {
   background: #65d;
   transform: scale(1.1);
 }
+.container {
+  max-width: 1144px;
+  margin: 0 auto;
+}
 
 input,
 textarea {
