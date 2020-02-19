@@ -2,7 +2,9 @@
   <div id="app">
     <TheHeader />
     <main class="main">
-      <router-view />
+      <transition mode="out-in">
+        <router-view />
+      </transition>
     </main>
     <TheFooter />
   </div>
@@ -96,7 +98,9 @@ body {
   max-width: 1144px;
   margin: 0 auto;
 }
-
+label {
+  margin-bottom: 5px;
+}
 input,
 textarea {
   border-radius: 4px;
